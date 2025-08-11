@@ -1,11 +1,11 @@
-// const Task = require('../models/taskModel');
+// const TaskModel = require('../models TaskModel');
 
 // // @desc    Get all tasks    
 // // @route   GET /api/tasks
 // // @access  Public
 // exports.getAllTasks = async (req, res, next) => {
 //     try {
-//         const tasks = await Task.find();
+//         const tasks = await TaskModel.find();
 //         res.status(200).json({ success: true, count: tasks.length, data: tasks });
 //     } catch (err) {
 //         res.status(400).json({ success: false, error: err.message });
@@ -17,7 +17,7 @@
 // // @access  Public
 // exports.getTask = async (req, res, next) => {
 //     try {
-//         const task = await Task.findById(req.params.id);
+//         const task = await TaskModel.findById(req.params.id);
 
 //         if (!task) {
 //             return res.status(404).json({ success: false, error: 'No task found' });
@@ -34,7 +34,7 @@
 // // @access  Public
 // exports.createTask = async (req, res, next) => {
 //     try {
-//         const task = await Task.create(req.body);
+//         const task = await TaskModel.create(req.body);
 //         res.status(201).json({ success: true, data: task });
 //     } catch (err) {
 //         res.status(400).json({ success: false, error: err.message });
@@ -46,7 +46,7 @@
 // // @access  Public
 // exports.updateTask = async (req, res, next) => {
 //     try {
-//         const task = await Task.findByIdAndUpdate(req.params.id, req.body, {
+//         const task = await TaskModel.findByIdAndUpdate(req.params.id, req.body, {
 //             new: true,
 //             runValidators: true
 //         });
@@ -66,7 +66,7 @@
 // // @access  Public
 // exports.deleteTask = async (req, res, next) => {
 //     try {
-//         const task = await Task.findByIdAndDelete(req.params.id);
+//         const task = await TaskModel.findByIdAndDelete(req.params.id);
 
 //         if (!task) {
 //             return res.status(404).json({ success: false, error: 'No task found' });
@@ -85,14 +85,14 @@
 
 
 
-const Task = require('../models/taskModel');
+const TaskModel = require('../models TaskModel');
 
 // @desc    Get all tasks for the logged-in user
 // @route   GET /api/tasks
 // exports.getTasks = async (req, res, next) => {
 //     try {
 //         // Only find tasks for the logged-in user
-//         const tasks = await Task.find({ user: req.user.id });
+//         const tasks = await TaskModel.find({ user: req.user.id });
 //         res.status(200).json({ success: true, count: tasks.length, data: tasks });
 //     } catch (err) {
 //         res.status(400).json({ success: false, error: err.message });
@@ -150,7 +150,7 @@ exports.getTasks = async (req, res, next) => {
         }
         // ------------------------
 
-        const tasks = await Task.find(query).sort({ dueDate: 1 }); // Sort by due date
+        const tasks = await TaskModel.find(query).sort({ dueDate: 1 }); // Sort by due date
 
         res.status(200).json({ success: true, count: tasks.length, data: tasks });
     } catch (err) {
@@ -164,7 +164,7 @@ exports.getTasks = async (req, res, next) => {
 // @route   GET /api/tasks/:id
 exports.getTask = async (req, res, next) => {
     try {
-        const task = await Task.findById(req.params.id);
+        const task = await TaskModel.findById(req.params.id);
 
         if (!task) {
             return res.status(404).json({ success: false, error: 'No task found' });
@@ -188,7 +188,7 @@ exports.createTask = async (req, res, next) => {
         // Add user to req.body
         req.body.user = req.user.id;
 
-        const task = await Task.create(req.body);
+        const task = await TaskModel.create(req.body);
         res.status(201).json({ success: true, data: task });
     } catch (err) {
         res.status(400).json({ success: false, error: err.message });
@@ -199,7 +199,7 @@ exports.createTask = async (req, res, next) => {
 // @route   PUT /api/tasks/:id
 exports.updateTask = async (req, res, next) => {
     try {
-        let task = await Task.findById(req.params.id);
+        let task = await TaskModel.findById(req.params.id);
 
         if (!task) {
             return res.status(404).json({ success: false, error: 'No task found' });
@@ -210,7 +210,7 @@ exports.updateTask = async (req, res, next) => {
             return res.status(401).json({ success: false, error: 'Not authorized to update this task' });
         }
 
-        task = await Task.findByIdAndUpdate(req.params.id, req.body, {
+        task = await TaskModel.findByIdAndUpdate(req.params.id, req.body, {
             new: true,
             runValidators: true
         });
@@ -225,7 +225,7 @@ exports.updateTask = async (req, res, next) => {
 // @route   DELETE /api/tasks/:id
 // exports.deleteTask = async (req, res, next) => {
 //     try {
-//         const task = await Task.findById(req.params.id);
+//         const task = await TaskModel.findById(req.params.id);
 
 //         if (!task) {
 //             return res.status(404).json({ success: false, error: 'No task found' });
@@ -250,7 +250,7 @@ exports.updateTask = async (req, res, next) => {
 
 exports.deleteTask = async (req, res, next) => {
     try {
-        const task = await Task.findById(req.params.id);
+        const task = await TaskModel.findById(req.params.id);
 
         if (!task) {
             return res.status(404).json({ success: false, error: 'No task found' });
