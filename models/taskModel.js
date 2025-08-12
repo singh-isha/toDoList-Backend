@@ -1,66 +1,3 @@
-// const mongoose = require('mongoose');
-
-// const TaskSchema = new mongoose.Schema({
-//     title: {
-//         type: String,
-//         required: [true, 'Please add a title'],
-//         trim: true
-//     },
-//     description: {
-//         type: String,
-//         required: false,
-//         trim: true
-//     },
-//     completed: {
-//         type: Boolean,
-//         default: false
-//     },
-//     createdAt: {
-//         type: Date,
-//         default: Date.now
-//     }
-// }); 
-
-// module.exports = mongoose.model('Task', TaskSchema);
-
-
-
-
-
-// const mongoose = require('mongoose');
-
-// const TaskSchema = new mongoose.Schema({
-//     title: {
-//         type: String,
-//         required: [true, 'Please add a title'],
-//         trim: true
-//     },
-//     description: {
-//         type: String,
-//         required: false,
-//         trim: true
-//     },
-//     completed: {
-//         type: Boolean,
-//         default: false
-//     },
-//     createdAt: {
-//         type: Date,
-//         default: Date.now
-//     },
-//     user: { // Add this user field
-//         type: mongoose.Schema.ObjectId,
-//         ref: 'User',
-//         required: true
-//     }
-// });
-
-// module.exports = mongoose.model('Task', TaskSchema);
-
-
-
-
-
 const mongoose = require('mongoose');
 
 const TaskSchema = new mongoose.Schema({
@@ -76,23 +13,22 @@ const TaskSchema = new mongoose.Schema({
     },
     completed: {
         type: Boolean,
-        default: false
+        default: false,
+        index: true // <-- AUTO INDEX ADDED
     },
-    // --- ADD THIS FIELD ---
     dueDate: {
         type: Date,
-        required: false // Not every task needs a due date
+        required: false,
+        index: true // <-- AUTO INDEX ADDED
     },
-    // ----------------------
     user: {
         type: mongoose.Schema.ObjectId,
         ref: 'User',
-        required: true
-    },
-    createdAt: {
-        type: Date,
-        default: Date.now
+        required: true,
+        index: true // <-- AUTO INDEX ADDED
     }
+}, {
+    timestamps: true // Automatically adds createdAt and updatedAt fields
 });
 
 module.exports = mongoose.model('Task', TaskSchema);
