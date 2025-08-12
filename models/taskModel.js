@@ -1,5 +1,10 @@
 const mongoose = require('mongoose');
 
+
+
+
+
+
 const TaskSchema = new mongoose.Schema({
     title: {
         type: String,
@@ -21,6 +26,31 @@ const TaskSchema = new mongoose.Schema({
         required: false,
         index: true // <-- AUTO INDEX ADDED
     },
+
+
+
+
+
+
+
+ // --- ADD THIS FIELD ---
+    priority: {
+        type: String,
+        enum: ['Low', 'Medium', 'High'],
+        default: 'Medium',
+        index: true
+    },
+    // ----------------------
+
+
+
+
+
+
+
+
+
+
     user: {
         type: mongoose.Schema.ObjectId,
         ref: 'User',
