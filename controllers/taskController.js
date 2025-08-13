@@ -468,3 +468,84 @@ exports.getTaskStats = async (req, res, next) => {
         res.status(400).json({ success: false, error: 'Could not retrieve task stats' });
     }
 };
+
+
+
+
+
+
+
+
+
+
+
+//-----------------------------subtasks functions----------------------
+
+
+exports.createSubTask = async (req, res, next) => {
+    try {
+        const task = await TaskModel.findById(req.params.taskId);
+        if (!task || task.user.toString() !== req.user.id) {
+            return res.status(404).json({ success: false, error: 'Task not found' });
+        }
+        
+        task.subTasks.push(req.body);
+        await task.save();
+
+        res.status(201).json({ success: true, data: task });
+    } catch (err) {
+        res.status(400).json({ success: false, error: err.message });
+    }
+};
+
+// @desc    Update a specific sub-task
+// @route   PUT /api/tasks/:taskId/subtasks/:subtaskId
+exports.updateSubTask = async (req, res, next) => {
+    try {
+        const task = await TaskModel.findById(req.params.taskId);
+        if (!task || task.user.toString() !== req.user.id) {
+            return res.status(404).json({ success: false, error: 'Task not found' });
+        }
+        
+        const subTask = task.subTasks.id(req.params.subtaskId);
+        if (!subTask) {
+            return res.status(404).json({ success: false, error: 'Sub-task not found' });
+        }
+
+        // Update fields
+        subTask.set(req.body);
+        await task.save();
+
+        res.status(200).json({ success: true, data: task });
+    } catch (err) {
+        res.status(400).json({ success: false, error: err.message });
+    }
+};
+
+// @desc    Delete a specific sub-task
+// @route   DELETE /api/tasks/:taskId/subtasks/:subtaskId
+exports.deleteSubTask = async (req, res, next) => {
+    try {
+        const task = await TaskModel.findById(req.params.taskId);
+        if (!task || task.user.toString() !== req.user.id) {
+            return res.status(404).json({ success: false, error: 'Task not found' });
+        }
+        
+        const subTask = task.subTasks.id(req.params.subtaskId);
+        if (!subTask) {
+            return res.status(404).json({ success: false, error: 'Sub-task not found' });
+        }
+        
+        // subTask.remove();
+        // await task.save();
+
+        task.subTasks.pull(req.params.subtaskId);
+        await task.save();
+
+        res.status(200).json({ success: true, data: { message: "successfully deleted" } });
+
+    } catch (err) {
+        res.status(400).json({ success: false, error: err.message });
+    }
+};
+//------------------------------end-----------------------------
