@@ -1,93 +1,68 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
-// addition of subtask code 
-
-
+// addition of subtask code
 
 // --- DEFINE A SUB-TASK SCHEMA ---
 const SubTaskSchema = new mongoose.Schema({
-    title: {
-        type: String,
-        required: true,
-        trim: true
-    },
-    completed: {
-        type: Boolean,
-        default: false
-    }
+  title: {
+    type: String,
+    required: true,
+    trim: true,
+  },
+  completed: {
+    type: Boolean,
+    default: false,
+  },
 });
 //------------------------------------------------
 
-
-
-
-const TaskSchema = new mongoose.Schema({
+const TaskSchema = new mongoose.Schema(
+  {
     title: {
-        type: String,
-        required: [true, 'Please add a title'],
-        trim: true
+      type: String,
+      required: [true, "Please add a title"],
+      trim: true,
     },
     description: {
-        type: String,
-        required: false,
-        trim: true
+      type: String,
+      required: false,
+      trim: true,
     },
     completed: {
-        type: Boolean,
-        default: false,
-        index: true // <-- AUTO INDEX ADDED
+      type: Boolean,
+      default: false,
+      index: true, // <-- AUTO INDEX ADDED
     },
     dueDate: {
-        type: Date,
-        required: false,
-        index: true // <-- AUTO INDEX ADDED
+      type: Date,
+      required: false,
+      index: true, // <-- AUTO INDEX ADDED
     },
 
-
-
-
-
-
-
- // --- ADD THIS FIELD ---
+    // --- ADD THIS FIELD ---
     priority: {
-        type: String,
-        enum: ['Low', 'Medium', 'High'],
-        default: 'Medium',
-        index: true
+      type: String,
+      enum: ["Low", "Medium", "High"],
+      default: "Medium",
+      index: true,
     },
     // ----------------------
 
-
-
-
-
-
-
-
-
-
     user: {
-        type: mongoose.Schema.ObjectId,
-        ref: 'User',
-        required: true,
-        index: true // <-- AUTO INDEX ADDED
+      type: mongoose.Schema.ObjectId,
+      ref: "User",
+      required: true,
+      index: true, // <-- AUTO INDEX ADDED
     },
 
+    // ---------------Add sub task code -------to store them into array-------------
 
-// ---------------Add sub task code -------to store them into array-------------
+    // --- ADD THE SUB-TASK ARRAY ---
+    subTasks: [SubTaskSchema],
+  },
+  {
+    timestamps: true, // Automatically adds createdAt and updatedAt fields
+  }
+);
 
-
-// --- ADD THE SUB-TASK ARRAY ---
-    subTasks: [SubTaskSchema]
-
-
-
-
-
-
-}, {
-    timestamps: true // Automatically adds createdAt and updatedAt fields
-});
-
-module.exports = mongoose.model('Task', TaskSchema);
+module.exports = mongoose.model("Task", TaskSchema);
