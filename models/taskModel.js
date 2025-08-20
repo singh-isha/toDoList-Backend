@@ -1,21 +1,5 @@
 const mongoose = require("mongoose");
 
-// addition of subtask code
-
-// --- DEFINE A SUB-TASK SCHEMA ---
-const SubTaskSchema = new mongoose.Schema({
-  title: {
-    type: String,
-    required: true,
-    trim: true,
-  },
-  completed: {
-    type: Boolean,
-    default: false,
-  },
-});
-//------------------------------------------------
-
 const TaskSchema = new mongoose.Schema(
   {
     title: {
@@ -55,10 +39,15 @@ const TaskSchema = new mongoose.Schema(
       index: true, // <-- AUTO INDEX ADDED
     },
 
-    // ---------------Add sub task code -------to store them into array-------------
-
-    // --- ADD THE SUB-TASK ARRAY ---
-    subTasks: [SubTaskSchema],
+    // --- THIS IS THE KEY CHANGE AFTER ADDITION OF AUTO INDEXING ---
+    // Remove the embedded array: subTasks: [SubTaskSchema]
+    // And replace it with an array of ObjectIds
+    subtasks: [
+      {
+        type: mongoose.Schema.ObjectId,
+        ref: "Subtask",
+      },
+    ],
   },
   {
     timestamps: true, // Automatically adds createdAt and updatedAt fields
